@@ -1,22 +1,15 @@
 import { useFieldArray, useForm } from "react-hook-form"
 import { api } from "../../api/instance";
-import { WorkoutsEditingForm } from "../../components/ContentEditing/Workouts/Form";
+import { WorkoutFormI, WorkoutsEditingForm } from "../../components/ContentEditing/Workouts/Form";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { CircularProgress } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useEffect } from "react";
 import { WorkoutI } from "../../api/types";
-
-type workout = { title: string, time: any }
-
-interface FormI {
-  title: string;
-  description: string;
-  workouts: workout[]
-}
+import { LoaderWrapper } from "../../components/Loader";
 
 export const UpdateWorkoutRoute = () => {
-  const { control, handleSubmit, formState: { errors }, setValue } = useForm<FormI>()
+  const { control, handleSubmit, formState: { errors }, setValue } = useForm<WorkoutFormI>()
   const { fields, append, remove, update } = useFieldArray({
     control,
     name: "workouts",
@@ -31,7 +24,7 @@ export const UpdateWorkoutRoute = () => {
     if (data) {
       setValue("title", data.title)
       setValue("description", data.description)
-      data.content.forEach((cont: workout, i: number) => update(i, cont))
+      data.content.forEach((cont, i) => update(i, cont))
     }
   }, [data])
 
@@ -47,12 +40,20 @@ export const UpdateWorkoutRoute = () => {
     await api.put(`/user/workout/${workoutId}`, newBody)
   })
 
-  return isLoading ? <CircularProgress /> : <WorkoutsEditingForm
-    fields={fields}
-    onSubmit={onSubmit}
-    control={control}
-    append={append}
-    remove={remove}
-    errors={errors}
-  />
+  return <LoaderWrapper
+    isLoading={isLoading}
+    hasData={!!data}
+  >
+    <Typography variant="h2" sx={{ mb: 5 }}>
+      Update Workout
+    </Typography>
+    <WorkoutsEditingForm
+      fields={fields}
+      onSubmit={onSubmit}
+      control={control}
+      append={append}
+      remove={remove}
+      errors={errors}
+    />
+  </LoaderWrapper>
 }

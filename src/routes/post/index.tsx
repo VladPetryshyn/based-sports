@@ -1,13 +1,14 @@
 import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom"
 import { api } from "../../api/instance";
-import { CircularProgress, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import DOMPurify from 'dompurify';
 import { LikeReaction } from "../../components/Reactions/Like";
 import { DislikeReaction } from "../../components/Reactions/Dislike";
 import { DeleteItem } from "../../components/Deletion";
 import { useReactions } from "../../hooks/useReactions";
 import { PostI } from "../../api/types";
+import { LoaderWrapper } from "../../components/Loader";
 
 
 export const PostRoute = () => {
@@ -28,23 +29,23 @@ export const PostRoute = () => {
   const navigate = useNavigate()
   const removeItem = () => navigate("/posts")
 
-  return isLoading || !data ? <CircularProgress /> : <div>
+  return <LoaderWrapper isLoading={isLoading} hasData={!!data} >
     <Typography variant="h2">
-      {data.title}
+      {data!.title}
     </Typography>
     <Typography variant="h5" color="text.secondary">
-      By @{data.authorUsername}
+      By @{data!.authorUsername}
     </Typography>
     <Grid container alignItems="center" sx={{ my: 1.5 }}>
       <LikeReaction
-        id={data.id}
+        id={data!.id}
         type="post"
         amount={likes}
         isReacted={liked}
         onReact={onLike}
       />
       <DislikeReaction
-        id={data.id}
+        id={data!.id}
         type="post"
         amount={dislikes}
         isReacted={disliked}
@@ -52,11 +53,11 @@ export const PostRoute = () => {
       />
       <DeleteItem
         removeItem={removeItem}
-        id={data.id}
+        id={data!.id}
         type="post"
-        title={data.title}
+        title={data!.title}
       />
     </Grid>
-    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.content, { USE_PROFILES: { html: true } }) }} />
-  </div>
+    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data!.content, { USE_PROFILES: { html: true } }) }} />
+  </LoaderWrapper>
 }

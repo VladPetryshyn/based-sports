@@ -1,8 +1,9 @@
 import { Delete } from "@mui/icons-material";
-import { Box, Button, CircularProgress, Grid, IconButton, Modal, Typography } from "@mui/material"
+import { Box, Button, Grid, IconButton, Modal, Typography } from "@mui/material"
 import { FC, useState } from "react";
 import { ReactToType } from "../Reactions/types";
 import { api } from "../../api/instance";
+import { LoaderWrapper } from "../Loader";
 
 const style = {
   position: 'absolute' as const,
@@ -58,10 +59,12 @@ export const DeleteItem: FC<Props> = ({ title, id, type, removeItem }) => {
         <Typography id="modal-modal-title" variant="h6" component="h2" color="text.primary">
           Delete post "{title}"?
         </Typography>
-        {isLoading ? <CircularProgress /> : <Typography id="modal-modal-description" sx={{ mt: 2 }} color="text.secondary">
-          When you delete this {type}, it will be gone forever, are you sure you wanna proceed?
-        </Typography>
-        }
+
+        <LoaderWrapper isLoading={isLoading} hasData={true}>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }} color="text.secondary">
+            When you delete this {type}, it will be gone forever, are you sure you wanna proceed?
+          </Typography>
+        </LoaderWrapper>
         <Grid container sx={{ pt: 3 }}>
           <Button onClick={handleClose}>
             CANCEl

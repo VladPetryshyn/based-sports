@@ -1,11 +1,11 @@
 import { useQuery } from "react-query"
 import { api } from "../../api/instance"
-import CircularProgress from "@mui/material/CircularProgress"
 import Grid from "@mui/material/Grid"
 import Typography from "@mui/material/Typography"
 import { ContentI } from "../../api/types"
 import { ContentCard } from "../../components/Card"
 import { useEffect, useState } from "react"
+import { LoaderWrapper } from "../../components/Loader"
 
 export const PostsRoute = () => {
   const { isLoading, data } = useQuery<ContentI[]>(["posts"], () => api.get("/posts").then(res => res.data))
@@ -23,15 +23,15 @@ export const PostsRoute = () => {
       Posts
     </Typography >
     <Grid container spacing={2}>
-      {isLoading || !data ? <Grid item>
-        <CircularProgress />
-      </Grid> : posts.map((val) =>
-        <ContentCard
-          {...val}
-          type="post"
-          removeItem={removePost(val.id)}
-        />
-      )}
+      <LoaderWrapper isLoading={isLoading} hasData={!!data}>
+        {posts.map((val) =>
+          <ContentCard
+            {...val}
+            type="post"
+            removeItem={removePost(val.id)}
+          />
+        )}
+      </LoaderWrapper>
     </Grid>
   </>
 }

@@ -1,9 +1,10 @@
-import { CircularProgress, Grid, Typography } from "@mui/material"
+import { Grid, Typography } from "@mui/material"
 import { useQuery } from "react-query"
 import { api } from "../../api/instance"
 import { ContentI } from "../../api/types"
 import { ContentCard } from "../../components/Card"
 import { useEffect, useState } from "react"
+import { LoaderWrapper } from "../../components/Loader"
 
 export const WorkoutsRoute = () => {
   const { isLoading, data } = useQuery<ContentI[]>(["workouts"], () => api.get("/workouts").then(res => res.data))
@@ -21,15 +22,15 @@ export const WorkoutsRoute = () => {
       Workouts
     </Typography >
     <Grid container spacing={2}>
-      {isLoading || !data ? <Grid item>
-        <CircularProgress />
-      </Grid> : workouts.map((val) =>
-        <ContentCard
-          {...val}
-          type="workout"
-          removeItem={removeWorkout(val.id)}
-        />
-      )}
+      <LoaderWrapper isLoading={isLoading} hasData={!!data}>
+        {workouts.map((val) =>
+          <ContentCard
+            {...val}
+            type="workout"
+            removeItem={removeWorkout(val.id)}
+          />
+        )}
+      </LoaderWrapper>
     </Grid>
   </>
 }

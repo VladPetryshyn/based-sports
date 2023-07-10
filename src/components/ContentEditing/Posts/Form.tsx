@@ -1,17 +1,17 @@
-import { Button, Grid, TextField, Typography } from "@mui/material"
+import { Button, Grid, TextField, } from "@mui/material"
 import { Editor } from "./Editor"
 import { Control, Controller, FieldErrors, } from "react-hook-form";
 import { FC } from "react";
 import { Editor as EditorI } from "@tiptap/react";
 
-interface FormI {
+export interface PostFormI {
   title: string;
   description: string;
 }
 
 interface Props {
-  errors: FieldErrors<FormI>
-  control: Control<FormI, any>
+  errors: FieldErrors<PostFormI>
+  control: Control<PostFormI, any>
   onSubmit: (e?: React.BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>
   contentErr: string;
   setEditor: (editor: EditorI | null) => void

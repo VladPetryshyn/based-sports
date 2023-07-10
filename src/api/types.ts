@@ -9,8 +9,11 @@ export interface ContentI {
   likes: number;
   dislikes: number;
 }
+
+export type workoutContentItem = { time: string, title: string }
+
 export interface WorkoutI extends ContentI {
-  content: { time: string, title: string }[]
+  content: workoutContentItem[]
 }
 export interface PostI extends ContentI {
   content: string;

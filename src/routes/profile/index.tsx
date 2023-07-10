@@ -1,10 +1,11 @@
-import { Avatar, CircularProgress, Grid, Stack, Typography } from "@mui/material"
+import { Avatar, Grid, Stack, Typography } from "@mui/material"
 import { useParams } from "react-router-dom"
 import { api } from "../../api/instance"
 import { useQuery } from "react-query"
 import { ContentI } from "../../api/types"
 import { ContentCard } from "../../components/Card"
 import { useEffect, useState } from "react"
+import { LoaderWrapper } from "../../components/Loader"
 
 export const ProfileRoute = () => {
   const { username } = useParams()
@@ -54,17 +55,15 @@ export const ProfileRoute = () => {
         Posts
       </Typography>
       <Stack spacing={2} direction="row" sx={{ overflow: "auto", maxWidth: 1000, pb: 3 }}>
-        {postsData.isLoading ? <CircularProgress /> :
-          <>
-            {posts?.map((val) =>
-              <ContentCard
-                {...val}
-                type="post"
-                removeItem={removePost(val.id)}
-              />
-            )}
-          </>
-        }
+        <LoaderWrapper isLoading={postsData.isLoading} hasData={!!posts}>
+          {posts?.map((val) =>
+            <ContentCard
+              {...val}
+              type="post"
+              removeItem={removePost(val.id)}
+            />
+          )}
+        </LoaderWrapper>
       </Stack>
     </Grid>
     <Grid item>
@@ -72,17 +71,15 @@ export const ProfileRoute = () => {
         Workouts
       </Typography>
       <Stack spacing={2} direction="row" sx={{ overflow: "auto", maxWidth: 1000, pb: 3 }}>
-        {workoutsData.isLoading ? <CircularProgress /> :
-          <>
-            {workouts?.map((val) =>
-              <ContentCard
-                {...val}
-                type="workout"
-                removeItem={removeWorkout(val.id)}
-              />
-            )}
-          </>
-        }
+        <LoaderWrapper isLoading={postsData.isLoading} hasData={!!posts}>
+          {workouts?.map((val) =>
+            <ContentCard
+              {...val}
+              type="workout"
+              removeItem={removeWorkout(val.id)}
+            />
+          )}
+        </LoaderWrapper>
       </Stack>
     </Grid>
   </Grid >

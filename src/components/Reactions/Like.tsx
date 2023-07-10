@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC } from "react"
 import { ReactToType } from "./types"
 import { ThumbUpAlt, ThumbUpOffAlt } from "@mui/icons-material"
 import { Grid, IconButton, Typography } from "@mui/material"

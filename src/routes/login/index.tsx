@@ -27,7 +27,8 @@ export const LoginRoute = () => {
     } catch (err) {
       if (err instanceof AxiosError) {
         if (err?.response?.data) Object.keys(err.response.data).forEach((key) => {
-          setError(key as keyof FormI, { message: err.response.data[key] })
+          if (err instanceof AxiosError)
+            setError(key as keyof FormI, { message: err?.response?.data[key] })
         })
       }
     }

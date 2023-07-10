@@ -2,15 +2,11 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { api } from "../../api/instance";
 import { Editor as EditorI } from "@tiptap/react";
-import { PostsEditingForm } from "../../components/ContentEditing/Posts/Form";
-
-interface FormI {
-  title: string;
-  description: string;
-}
+import { PostFormI, PostsEditingForm } from "../../components/ContentEditing/Posts/Form";
+import { Typography } from "@mui/material";
 
 export const CreatePostRoute = () => {
-  const { control, handleSubmit, formState: { errors } } = useForm<FormI>()
+  const { control, handleSubmit, formState: { errors } } = useForm<PostFormI>()
   const [editor, setEditor] = useState<EditorI | null>();
   const [contentErr, setContentErr] = useState("");
 
@@ -27,11 +23,16 @@ export const CreatePostRoute = () => {
     }
   })
 
-  return <PostsEditingForm
-    control={control}
-    errors={errors}
-    onSubmit={onSubmit}
-    contentErr={contentErr}
-    setEditor={setEditor}
-  />
+  return <>
+    <Typography variant="h2" sx={{ mb: 5 }}>
+      Create Post
+    </Typography>
+    <PostsEditingForm
+      control={control}
+      errors={errors}
+      onSubmit={onSubmit}
+      contentErr={contentErr}
+      setEditor={setEditor}
+    />
+  </>
 }

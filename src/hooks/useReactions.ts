@@ -3,9 +3,13 @@ import { ContentI } from "../api/types"
 
 
 export const useReactions = (data: ContentI | undefined) => {
+  // eslint-disable-next-line 
   const [liked, setLike] = useState(data?.isLiked!)
+  // eslint-disable-next-line 
   const [disliked, setDislike] = useState(data?.isDisliked!)
+  // eslint-disable-next-line 
   const [dislks, setDislks] = useState(data?.dislikes!)
+  // eslint-disable-next-line 
   const [liks, setLiks] = useState(data?.likes!)
 
   useEffect(() => {

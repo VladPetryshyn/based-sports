@@ -1,10 +1,10 @@
 import { Add, Delete } from "@mui/icons-material";
-import { Button, Grid, IconButton, TextField, Typography } from "@mui/material"
+import { Button, Grid, IconButton, TextField } from "@mui/material"
 import { TimePicker } from "@mui/x-date-pickers/TimePicker"
 import { FC } from "react";
 import { Control, Controller, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove } from "react-hook-form";
 
-interface FormI {
+export interface WorkoutFormI {
   title: string;
   description: string;
   workouts: { title: string, time: any }[]
@@ -12,10 +12,10 @@ interface FormI {
 
 interface Props {
   onSubmit: (e?: React.BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>
-  errors: FieldErrors<FormI>
-  control: Control<FormI, any>,
-  fields: FieldArrayWithId<FormI, "workouts", "id">[]
-  append: UseFieldArrayAppend<FormI, "workouts">,
+  errors: FieldErrors<WorkoutFormI>
+  control: Control<WorkoutFormI, any>,
+  fields: FieldArrayWithId<WorkoutFormI, "workouts", "id">[]
+  append: UseFieldArrayAppend<WorkoutFormI, "workouts">,
   remove: UseFieldArrayRemove,
 }
 
@@ -28,9 +28,6 @@ export const WorkoutsEditingForm: FC<Props> = ({
   remove
 }) => {
   return <form onSubmit={onSubmit}>
-    <Typography variant="h2" sx={{ mb: 5 }}>
-      Create Workout
-    </Typography>
     <Grid container direction="column" spacing={2}>
       <Grid item>
         <Controller

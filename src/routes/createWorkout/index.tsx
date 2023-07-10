@@ -1,16 +1,11 @@
 import { useFieldArray, useForm } from "react-hook-form"
 import { api } from "../../api/instance";
-import { WorkoutsEditingForm } from "../../components/ContentEditing/Workouts/Form";
+import { WorkoutFormI, WorkoutsEditingForm } from "../../components/ContentEditing/Workouts/Form";
+import { Typography } from "@mui/material";
 
-
-interface FormI {
-  title: string;
-  description: string;
-  workouts: { title: string, time: any }[]
-}
 
 export const CreateWorkoutRoute = () => {
-  const { control, handleSubmit, formState: { errors } } = useForm<FormI>()
+  const { control, handleSubmit, formState: { errors } } = useForm<WorkoutFormI>()
   const { fields, append, remove } = useFieldArray({
     control,
     name: "workouts",
@@ -25,18 +20,20 @@ export const CreateWorkoutRoute = () => {
       }))
     }
 
-
-    const resp = await api.post("/user/workout", newBody)
-
-    console.log(resp)
+    await api.post("/user/workout", newBody)
   })
 
-  return <WorkoutsEditingForm
-    fields={fields}
-    onSubmit={onSubmit}
-    control={control}
-    append={append}
-    remove={remove}
-    errors={errors}
-  />
+  return <>
+    <Typography variant="h2" sx={{ mb: 5 }}>
+      Create Workout
+    </Typography>
+    <WorkoutsEditingForm
+      fields={fields}
+      onSubmit={onSubmit}
+      control={control}
+      append={append}
+      remove={remove}
+      errors={errors}
+    />
+  </>
 }
